@@ -22,6 +22,8 @@ public class Category {
     private Long id;
 
     private String name;
+    private String description;
+    private String image;
 
     public Category(String name) {
         this.name = name;
