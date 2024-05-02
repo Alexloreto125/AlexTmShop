@@ -1,6 +1,7 @@
 package AlexSpring.AlexTmShop.controller;
 
 import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
+import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
 import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.payloads.NewCategoryDTO;
 import AlexSpring.AlexTmShop.payloads.NewCategoryResDTO;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CategoryDAO categoryDAO;
+
 
     @GetMapping
     public Page<Category> getAllCategories(@RequestParam(defaultValue = "0") int pageNumber,
@@ -27,6 +31,11 @@ public class CategoryController {
         return categoryService.findAllCategory(pageNumber, pageSize, sortBy);
     }
 
+
+    @GetMapping("/{id}")
+    public Category getById(@PathVariable Long id){
+        return this.categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
+    }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,5 +47,22 @@ public class CategoryController {
         return new NewCategoryResDTO(this.categoryService.createCategory(body));
     }
 
+    @PutMapping("/update/{updateId}")
+    public NewCategoryResDTO update(@PathVariable Long updateId, @RequestBody NewCategoryDTO newCategoryDTO, BindingResult validation){
+        if (validation.hasErrors()){
+            throw new BadRequestException(validation.getAllErrors());
+
+        }
+        return new NewCategoryResDTO(this.categoryService.updateCategories(updateId,newCategoryDTO));
+
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id){
+        Category category= this.categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
+
+        this.categoryDAO.delete(category);
+    }
 
 }
