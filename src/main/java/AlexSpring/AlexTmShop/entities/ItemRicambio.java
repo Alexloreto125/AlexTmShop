@@ -39,4 +39,5 @@ public class ItemRicambio {
 //        this.categoryId= categoryId;
         this.category = category;
     }
+
 }

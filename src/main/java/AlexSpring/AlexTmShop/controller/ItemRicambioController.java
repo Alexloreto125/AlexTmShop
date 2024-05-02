@@ -2,11 +2,9 @@ package AlexSpring.AlexTmShop.controller;
 
 import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
 import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
-import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.entities.ItemRicambio;
 import AlexSpring.AlexTmShop.payloads.ItemRicambioDTO;
 import AlexSpring.AlexTmShop.payloads.ItemRicambioResDTO;
-import AlexSpring.AlexTmShop.payloads.NewCategoryResDTO;
 import AlexSpring.AlexTmShop.repositories.ItemRicambioDAO;
 import AlexSpring.AlexTmShop.services.ItemRicambioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +27,10 @@ public class ItemRicambioController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemRicambioResDTO createItem(@RequestBody @Validated ItemRicambioDTO body, BindingResult validation){
+    public ItemRicambioResDTO createItem(@RequestBody @Validated ItemRicambioDTO body, BindingResult validation) {
 
-        if (validation.hasErrors()){
-            throw  new BadRequestException(validation.getAllErrors());
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
         }
 
         return new ItemRicambioResDTO(this.itemRicambioService.createItem(body));
@@ -41,14 +39,30 @@ public class ItemRicambioController {
 
     @GetMapping
     public Page<ItemRicambio> getAllRicambi(@RequestParam(defaultValue = "0") int pageNumber,
-                                           @RequestParam(defaultValue = "10") int pageSize,
-                                           @RequestParam(defaultValue = "name") String sortBy) {
+                                            @RequestParam(defaultValue = "10") int pageSize,
+                                            @RequestParam(defaultValue = "name") String sortBy) {
         return itemRicambioService.findAllRicambi(pageNumber, pageSize, sortBy);
     }
 
 
     @GetMapping("/{id}")
-    public ItemRicambio getRicambio(@PathVariable Long id){
-        return this.itemRicambioDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
+    public ItemRicambio getRicambio(@PathVariable Long id) {
+        return this.itemRicambioDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ItemRicambio update(@PathVariable Long id, @RequestBody ItemRicambioDTO body) {
+
+        return this.itemRicambioService.update(id, body);
+
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        ItemRicambio found = itemRicambioDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+        this.itemRicambioDAO.delete(found);
     }
 }
