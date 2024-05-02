@@ -6,12 +6,17 @@ import AlexSpring.AlexTmShop.entities.ItemRicambio;
 import AlexSpring.AlexTmShop.payloads.ItemRicambioDTO;
 import AlexSpring.AlexTmShop.repositories.CategoryDAO;
 import AlexSpring.AlexTmShop.repositories.ItemRicambioDAO;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class ItemRicambioService {
@@ -22,6 +27,8 @@ public class ItemRicambioService {
     private CategoryService categoryService;
     @Autowired
     private ItemRicambioDAO itemRicambioDAO;
+    @Autowired
+    private Cloudinary cloudinary;
 
 
     public Page<ItemRicambio> findAllRicambi(int pageNumber, int pageSize, String sortBy) {
@@ -62,6 +69,14 @@ public class ItemRicambioService {
             found.setCategory(category);
         }
 
+        return this.itemRicambioDAO.save(found);
+    }
+
+
+    public ItemRicambio uploadImage(MultipartFile img, Long id) throws IOException {
+        ItemRicambio found= itemRicambioDAO.findById(id).orElseThrow(()->new NotFoundException(id));
+        String url= (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url");
+        found.setImage(url);
         return this.itemRicambioDAO.save(found);
     }
 }

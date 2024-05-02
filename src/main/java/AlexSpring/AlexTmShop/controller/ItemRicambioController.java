@@ -10,9 +10,13 @@ import AlexSpring.AlexTmShop.services.ItemRicambioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/item")
@@ -65,4 +69,11 @@ public class ItemRicambioController {
         ItemRicambio found = itemRicambioDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.itemRicambioDAO.delete(found);
     }
+
+    @PutMapping("/upload/{id}")
+    public ItemRicambio uploadImage(@PathVariable Long id,@RequestParam("image") MultipartFile image) throws IOException {
+
+        return this.itemRicambioService.uploadImage(image,id);
+    }
+
 }
