@@ -43,10 +43,6 @@ public class CategoryService {
         return this.categoryDAO.save(category);
 
     }
-    //        Optional<Category> existingCategory = this.categoryDAO.findAll()
-//                .stream()
-//                .filter(category -> category.getName().toLowerCase().equals(categoryName))
-//                .findFirst();
 
 
     public Category updateCategories(Long id, NewCategoryDTO newCategoryDTO ){
