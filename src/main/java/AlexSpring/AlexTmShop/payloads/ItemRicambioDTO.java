@@ -4,6 +4,7 @@ import AlexSpring.AlexTmShop.entities.Category;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -25,8 +26,9 @@ public record ItemRicambioDTO(
         String image,
 
         @NotNull(message = "E' richiesto l'inserimento della categoria")
-        Long categoryID
+        Long categoryID,
 
+        String codice
 
 ) {
 }

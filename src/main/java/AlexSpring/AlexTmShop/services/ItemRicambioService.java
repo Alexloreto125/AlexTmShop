@@ -1,5 +1,6 @@
 package AlexSpring.AlexTmShop.services;
 
+import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
 import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
 import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.entities.ItemRicambio;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 
 @Service
 public class ItemRicambioService {
@@ -37,12 +39,38 @@ public class ItemRicambioService {
         return this.itemRicambioDAO.findAll(pageable);
     }
 
+
+    private String generateRandomCode(int caratteri) {
+        StringBuilder sb = new StringBuilder(caratteri);
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < caratteri; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            sb.append(characters.charAt(randomIndex));
+        }
+        return sb.toString();
+    }
+
     public ItemRicambio createItem(ItemRicambioDTO body) {
+
+        String codice;
+
+        if (body.codice() == null) {
+            codice = generateRandomCode(7);
+        } else {
+            codice = body.codice();
+        }
+
+        if (this.itemRicambioDAO.existsByCodiceIgnoreCase(codice)) {
+            throw new BadRequestException("L'item con codice " + body.codice() + " è già presente");
+        }
+
+
         Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException(body.categoryID()));
 
         String imaePath = (body.image() != null) ? body.image() : DEFAULT_IMAGE_PATH;
 
-        ItemRicambio itemRicambio = new ItemRicambio(body.name(), body.descrizione(), body.prezzo(), imaePath, category);
+        ItemRicambio itemRicambio = new ItemRicambio(body.name(), body.descrizione(), body.prezzo(), imaePath, category, codice);
 
         return this.itemRicambioDAO.save(itemRicambio);
 
@@ -74,8 +102,8 @@ public class ItemRicambioService {
 
 
     public ItemRicambio uploadImage(MultipartFile img, Long id) throws IOException {
-        ItemRicambio found= itemRicambioDAO.findById(id).orElseThrow(()->new NotFoundException(id));
-        String url= (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url");
+        ItemRicambio found = itemRicambioDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+        String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url");
         found.setImage(url);
         return this.itemRicambioDAO.save(found);
     }

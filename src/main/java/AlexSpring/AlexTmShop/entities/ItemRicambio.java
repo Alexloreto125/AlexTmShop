@@ -24,20 +24,22 @@ public class ItemRicambio {
     private String descrizione;
     private BigDecimal prezzo;
     private String image;
-//    private Long categoryId;
+    private String codice;
+
 
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public ItemRicambio(String name, String descrizione, BigDecimal prezzo, String image, Category category) {
+    public ItemRicambio(String name, String descrizione, BigDecimal prezzo, String image, Category category, String codice) {
         this.name = name;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.image = image;
 //        this.categoryId= categoryId;
         this.category = category;
+        this.codice= codice;
     }
 
 }
