@@ -1,6 +1,7 @@
 package AlexSpring.AlexTmShop.services;
 
 
+import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
 import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
 import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.payloads.NewCategoryDTO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -31,11 +33,21 @@ public class CategoryService {
 
     public Category createCategory(NewCategoryDTO body) {
 
+        if (this.categoryDAO.existsByNameIgnoreCase(body.name())) {
+            throw new BadRequestException("La categoria " + body.name() + " è già presente");
+
+        }
+
         Category category= new Category(body.name());
 
         return this.categoryDAO.save(category);
 
     }
+    //        Optional<Category> existingCategory = this.categoryDAO.findAll()
+//                .stream()
+//                .filter(category -> category.getName().toLowerCase().equals(categoryName))
+//                .findFirst();
+
 
     public Category updateCategories(Long id, NewCategoryDTO newCategoryDTO ){
         Category category= categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
