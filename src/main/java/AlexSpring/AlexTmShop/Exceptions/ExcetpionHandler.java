@@ -31,7 +31,11 @@ public class ExcetpionHandler {
             return new ErrorDTO(message, LocalDateTime.now());
         }
     }
-
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    private ErrorDTO UnauthorizedExceptionHandler(UnauthorizedException ex) {
+        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
+    }
 
     @ExceptionHandler(Exception.class)
     private ErrorDTO GenericException(Exception ex) {
