@@ -55,7 +55,7 @@ public class UsersService {
         found.setPhone(modifiedUser.getPhone());
         found.setEmail(modifiedUser.getEmail());
         found.setPassword(modifiedUser.getPassword());
-		found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName() + "+" + modifiedUser.getPhone());
+		found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName());
 		return this.usersDAO.save(found);
 	}
 

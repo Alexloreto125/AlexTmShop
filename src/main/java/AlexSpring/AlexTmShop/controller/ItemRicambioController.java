@@ -103,10 +103,12 @@ public class ItemRicambioController {
         this.itemRicambioDAO.delete(found);
     }
 
-    @PutMapping("/upload/{id}")
+    @PutMapping("/uploadItem/{id}")
     public ItemRicambio uploadImage(@PathVariable Long id,@RequestParam("image") MultipartFile image) throws IOException {
 
         return this.itemRicambioService.uploadImage(image,id);
     }
+
+
 
 }

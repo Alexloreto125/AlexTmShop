@@ -3,6 +3,7 @@ package AlexSpring.AlexTmShop.controller;
 import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
 import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
 import AlexSpring.AlexTmShop.entities.Category;
+import AlexSpring.AlexTmShop.entities.ItemRicambio;
 import AlexSpring.AlexTmShop.payloads.NewCategoryDTO;
 import AlexSpring.AlexTmShop.payloads.NewCategoryResDTO;
 import AlexSpring.AlexTmShop.repositories.CategoryDAO;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -65,4 +69,8 @@ public class CategoryController {
         this.categoryDAO.delete(category);
     }
 
+    @PutMapping("/upload/{id}")
+    public Category uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
+        return this.categoryService.uploadImage(image,id);
+    }
 }
