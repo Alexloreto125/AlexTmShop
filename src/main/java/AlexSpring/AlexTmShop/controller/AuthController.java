@@ -1,10 +1,7 @@
 package AlexSpring.AlexTmShop.controller;
 
 import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
-import AlexSpring.AlexTmShop.payloads.NewRoleDTO;
-import AlexSpring.AlexTmShop.payloads.NewRoleRespDTO;
-import AlexSpring.AlexTmShop.payloads.NewUserDTO;
-import AlexSpring.AlexTmShop.payloads.NewUserRespDTO;
+import AlexSpring.AlexTmShop.payloads.*;
 import AlexSpring.AlexTmShop.services.AuthService;
 import AlexSpring.AlexTmShop.services.UsersService;
 
@@ -29,10 +26,10 @@ public class AuthController {
 	@Autowired
 	private UsersService usersService;
 
-//	@PostMapping("/login")
-//	public UserLoginResponseDTO login(@RequestBody UserLoginDTO payload){
-//        return new UserLoginResponseDTO(this.authService.authenticateUserAndGenerateToken(payload));
-//	}
+	@PostMapping("/login")
+	public UserLoginResponseDTO login(@RequestBody UserLoginDTO payload){
+        return new UserLoginResponseDTO(this.authService.authenticateUserAndGenerateToken(payload));
+	}
 
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.CREATED)

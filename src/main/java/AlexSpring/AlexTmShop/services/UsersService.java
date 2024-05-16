@@ -38,8 +38,8 @@ public class UsersService {
 				}
 		);
 		// 3. Creo un nuovo oggetto User con i dati provenienti dal body
-		User newUser = new User(body.name(), body.surname(), body.email(), body.password(),
-				"https://ui-avatars.com/api/?name="+ body.name() + "+" + body.surname());
+		User newUser = new User(body.name(), body.phone(), body.email(), body.password(),
+				"https://ui-avatars.com/api/?name="+ body.name() + "+" + body.phone());
 
 		// 4. Salvo lo user
 		return usersDAO.save(newUser);
@@ -52,10 +52,10 @@ public class UsersService {
 	public User findByIdAndUpdate(UUID userId, User modifiedUser){
 		User found = this.findById(userId);
         found.setName(modifiedUser.getName());
-        found.setSurname(modifiedUser.getSurname());
+        found.setPhone(modifiedUser.getPhone());
         found.setEmail(modifiedUser.getEmail());
         found.setPassword(modifiedUser.getPassword());
-		found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName() + "+" + modifiedUser.getSurname());
+		found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName() + "+" + modifiedUser.getPhone());
 		return this.usersDAO.save(found);
 	}
 
