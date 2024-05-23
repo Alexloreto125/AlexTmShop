@@ -37,9 +37,16 @@ public class UsersService {
 					throw new BadRequestException("L'email " + user.getEmail() + " è già in uso!");
 				}
 		);
+		String username = body.name();
+		String[] names= username.split(" ");
+		StringBuilder initials= new StringBuilder();
+
+		for (String name: names){
+			initials.append(name.charAt(0));
+		}
 		// 3. Creo un nuovo oggetto User con i dati provenienti dal body
 		User newUser = new User(body.name(), body.phone(), body.email(), body.password(),
-				"https://ui-avatars.com/api/?name="+ body.name() + "+" + body.phone());
+				"https://ui-avatars.com/api/?name="+ initials.toString() );
 
 		// 4. Salvo lo user
 		return usersDAO.save(newUser);
@@ -49,13 +56,29 @@ public class UsersService {
         return this.usersDAO.findById(userId).orElseThrow(() -> new NotFoundException(String.valueOf(userId)));
 	}
 
+
+
+
 	public User findByIdAndUpdate(UUID userId, User modifiedUser){
 		User found = this.findById(userId);
-        found.setName(modifiedUser.getName());
-        found.setPhone(modifiedUser.getPhone());
-        found.setEmail(modifiedUser.getEmail());
-        found.setPassword(modifiedUser.getPassword());
+		if (modifiedUser.getName()!= null) {
+			found.setName(modifiedUser.getName());
 		found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName());
+		}
+
+		if (modifiedUser.getPhone()!=null){
+
+        found.setPhone(modifiedUser.getPhone());
+		}
+		if (modifiedUser.getEmail()!=null){
+
+        found.setEmail(modifiedUser.getEmail());
+		}
+		if (modifiedUser.getPassword()!=null){
+        found.setPassword(modifiedUser.getPassword());
+
+		}
+
 		return this.usersDAO.save(found);
 	}
 

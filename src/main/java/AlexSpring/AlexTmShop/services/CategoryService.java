@@ -31,10 +31,10 @@ public class CategoryService {
     private Cloudinary cloudinary;
 
 
-    public Page<Category> findAllCategory(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return this.categoryDAO.findAll(pageable);
+    public List<Category> findAllCategory() {
+
+
+        return this.categoryDAO.findAll();
     }
 
 
@@ -45,7 +45,7 @@ public class CategoryService {
 
         }
 
-        Category category= new Category(body.name());
+        Category category= new Category(body.name(),body.description());
 
         return this.categoryDAO.save(category);
 

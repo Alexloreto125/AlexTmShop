@@ -10,8 +10,8 @@ public record NewUserDTO(
 		@Size(min = 3, max = 30, message = "Il nome proprio deve essere compreso tra i 3 e i 30 caratteri")
 		String name,
 		@NotNull(message = "Il phone è obbligatorio")
-//		@Size(min = 10, max = 10, message = "Il numero phone deve essere compreso tra i 3 e i 10 caratteri")
-		Long phone,
+		@Size(min = 10, max = 10, message = "Il numero di telefono deve contenere 10 cifre")
+		String phone,
 		@NotEmpty(message = "L'email è obbligatoria")
 		@Email(message = "L'email inserita non è valida")
 		String email,

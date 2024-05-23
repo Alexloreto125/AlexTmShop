@@ -1,6 +1,7 @@
 package AlexSpring.AlexTmShop.payloads;
 
 import AlexSpring.AlexTmShop.entities.Category;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ public record ItemRicambioDTO(
         String descrizione,
 
         @NotNull(message = "E' richiesto l'inserimento del prezzo")
+        @DecimalMin(value = "0.0", message = "Il prezzo deve essere un numero positivo")
         BigDecimal prezzo,
 
         String image,
@@ -28,7 +30,9 @@ public record ItemRicambioDTO(
         @NotNull(message = "E' richiesto l'inserimento della categoria")
         Long categoryID,
 
+        @Size(max=7, message="Il codice puo avere massimo 7 cifre")
         String codice
+
 
 ) {
 }

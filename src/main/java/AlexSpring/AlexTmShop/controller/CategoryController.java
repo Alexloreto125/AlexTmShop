@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -29,10 +30,8 @@ public class CategoryController {
 
 
     @GetMapping
-    public Page<Category> getAllCategories(@RequestParam(defaultValue = "0") int pageNumber,
-                                           @RequestParam(defaultValue = "10") int pageSize,
-                                           @RequestParam(defaultValue = "name") String sortBy) {
-        return categoryService.findAllCategory(pageNumber, pageSize, sortBy);
+    public List<Category> getAllCategories() {
+        return categoryService.findAllCategory();
     }
 
 

@@ -13,4 +13,6 @@ public interface ItemRicambioDAO extends JpaRepository<ItemRicambio, Long> {
 
     List<ItemRicambio> findByNameContainingIgnoreCase(String name);
 
+    List<ItemRicambio> findByCategoryId(Long categoryId);
+
 }

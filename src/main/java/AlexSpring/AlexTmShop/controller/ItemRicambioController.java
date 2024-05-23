@@ -109,6 +109,9 @@ public class ItemRicambioController {
         return this.itemRicambioService.uploadImage(image,id);
     }
 
-
+@GetMapping("/categories/{categoryId}")
+    public List<ItemRicambio> getItemsByCategoryId(@PathVariable Long categoryId){
+        return itemRicambioService.getItemsByCategoryId(categoryId);
+}
 
 }

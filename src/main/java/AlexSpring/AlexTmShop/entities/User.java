@@ -24,14 +24,14 @@ public class User implements UserDetails {
 	@GeneratedValue
 	private UUID id;
 	private String name;
-	private Long phone;
+	private String phone;
 	private String email;
 	private String password;
 	private String avatarURL;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	public User(String name, Long phone, String email, String password, String avatarURL) {
+	public User(String name, String phone, String email, String password, String avatarURL) {
 		this.name = name;
 		this.phone = phone;
 		this.email = email;

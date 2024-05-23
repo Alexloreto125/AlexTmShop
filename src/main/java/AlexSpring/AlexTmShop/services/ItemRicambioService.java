@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.List;
 
 @Service
 public class ItemRicambioService {
@@ -39,6 +40,9 @@ public class ItemRicambioService {
         return this.itemRicambioDAO.findAll(pageable);
     }
 
+    public List<ItemRicambio> getItemsByCategoryId(Long categoryId){
+        return itemRicambioDAO.findByCategoryId(categoryId);
+    }
 
     private String generateRandomCode(int caratteri) {
         StringBuilder sb = new StringBuilder(caratteri);
@@ -61,12 +65,12 @@ public class ItemRicambioService {
             codice = body.codice();
         }
 
-        if (this.itemRicambioDAO.existsByCodiceIgnoreCase(codice)) {
-            throw new BadRequestException("L'item con codice " + body.codice() + " è già presente");
+        if (codice != null && this.itemRicambioDAO.existsByCodiceIgnoreCase(codice)) {
+            throw new BadRequestException("L'item con codice " + codice + " è già presente");
         }
 
 
-        Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException(body.categoryID()));
+        Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException("Categoria con id " +body.categoryID()+ " non trovata"));
 
         String imaePath = (body.image() != null) ? body.image() : DEFAULT_IMAGE_PATH;
 
