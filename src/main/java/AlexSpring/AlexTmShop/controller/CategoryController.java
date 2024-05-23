@@ -63,13 +63,15 @@ public class CategoryController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
-        Category category= this.categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
+//        Category category= this.categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
 
-        this.categoryDAO.delete(category);
+        categoryService.deleteCategory(id);
     }
 
     @PutMapping("/upload/{id}")
     public Category uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
         return this.categoryService.uploadImage(image,id);
     }
+
+
 }

@@ -69,7 +69,6 @@ public class ItemRicambioService {
             throw new BadRequestException("L'item con codice " + codice + " è già presente");
         }
 
-
         Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException("Categoria con id " +body.categoryID()+ " non trovata"));
 
         String imaePath = (body.image() != null) ? body.image() : DEFAULT_IMAGE_PATH;
@@ -99,9 +98,12 @@ public class ItemRicambioService {
         if (body.categoryID() != null) {
             Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException(body.categoryID()));
             found.setCategory(category);
+        }else {
+            found.setCategory(null);
         }
 
         return this.itemRicambioDAO.save(found);
+
     }
 
 

@@ -27,7 +27,7 @@ public record ItemRicambioDTO(
 
         String image,
 
-        @NotNull(message = "E' richiesto l'inserimento della categoria")
+//        @NotNull(message = "E' richiesto l'inserimento della categoria")
         Long categoryID,
 
         @Size(max=7, message="Il codice puo avere massimo 7 cifre")

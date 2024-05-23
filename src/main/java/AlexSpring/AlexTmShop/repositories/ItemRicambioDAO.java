@@ -1,5 +1,6 @@
 package AlexSpring.AlexTmShop.repositories;
 
+import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.entities.ItemRicambio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,5 +15,7 @@ public interface ItemRicambioDAO extends JpaRepository<ItemRicambio, Long> {
     List<ItemRicambio> findByNameContainingIgnoreCase(String name);
 
     List<ItemRicambio> findByCategoryId(Long categoryId);
+
+    List<ItemRicambio> findByCategory(Category category);
 
 }

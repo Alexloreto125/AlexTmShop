@@ -7,21 +7,16 @@ import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.entities.ItemRicambio;
 import AlexSpring.AlexTmShop.payloads.NewCategoryDTO;
 import AlexSpring.AlexTmShop.repositories.CategoryDAO;
+import AlexSpring.AlexTmShop.repositories.ItemRicambioDAO;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -29,6 +24,8 @@ public class CategoryService {
     private CategoryDAO categoryDAO;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private ItemRicambioDAO itemRicambioDAO;
 
 
     public List<Category> findAllCategory() {
@@ -66,4 +63,22 @@ public class CategoryService {
         return this.categoryDAO.save(found);
     }
 
+
+
+    public void deleteCategory(Long categoryId) {
+        Category category = categoryDAO.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("Categoria con id " + categoryId + " non trovata"));
+
+        // Recupera tutti gli item associati alla categoria
+        List<ItemRicambio> items = itemRicambioDAO.findByCategory(category);
+
+        for (ItemRicambio item : items) {
+            item.setCategory(null);
+        }
+
+        // Salva gli item aggiornati nel database
+        itemRicambioDAO.saveAll(items);
+        // Elimina la categoria
+        categoryDAO.delete(category);
+    }
 }
