@@ -41,7 +41,7 @@ public class ItemRicambioService {
     }
 
     public List<ItemRicambio> getItemsByCategoryId(Long categoryId){
-        return itemRicambioDAO.findByCategoryId(categoryId);
+        return itemRicambioDAO.findByCategoryIdOrderByNameAsc(categoryId);
     }
 
     private String generateRandomCode(int caratteri) {
@@ -91,15 +91,15 @@ public class ItemRicambioService {
         if (body.prezzo() != null) {
             found.setPrezzo(body.prezzo());
         }
-
+        if(body.codice()!= null){
+            found.setCodice(body.codice());
+        }
         if (body.image() != null) {
             found.setImage(body.image());
         }
         if (body.categoryID() != null) {
             Category category = categoryDAO.findById(body.categoryID()).orElseThrow(() -> new NotFoundException(body.categoryID()));
             found.setCategory(category);
-        }else {
-            found.setCategory(null);
         }
 
         return this.itemRicambioDAO.save(found);

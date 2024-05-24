@@ -14,11 +14,11 @@ public record ItemRicambioDTO(
 
 
         @NotEmpty(message = "E' richiesto l'inserimento del nome")
-        @Size(max = 20,min = 4,message = "I caratteri del nome devono essere compresi tra 4 e 20")
+//        @Size(max = 50,min = 4,message = "I caratteri del nome devono essere compresi tra 4 e 20")
         String name,
 
         @NotEmpty(message = "E' richiesto l'inserimento della descrizione")
-        @Size(max = 50,min = 4,message = "I caratteri della descrizione devono essere compresi tra 4 e 50")
+        @Size(max = 100,min = 4,message = "I caratteri della descrizione devono essere compresi tra 4 e 50")
         String descrizione,
 
         @NotNull(message = "E' richiesto l'inserimento del prezzo")
@@ -27,7 +27,7 @@ public record ItemRicambioDTO(
 
         String image,
 
-//        @NotNull(message = "E' richiesto l'inserimento della categoria")
+        @NotNull(message = "E' richiesto l'inserimento dell' id della categoria")
         Long categoryID,
 
         @Size(max=7, message="Il codice puo avere massimo 7 cifre")
