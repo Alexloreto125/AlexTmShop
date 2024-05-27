@@ -22,14 +22,16 @@ public class AuthService {
 	@Autowired
 	private JWTTools jwtTools;
 
-	public String authenticateUserAndGenerateToken(UserLoginDTO payload){
+	public ResponseUser authenticateUserAndGenerateToken(UserLoginDTO payload){
 		// 1. Controllo le credenziali
 		// 1.1 Cerco nel db tramite l'email l'utente
 		User user = this.usersService.findByEmail(payload.email());
+
 		// 1.2 Verifico se la password combacia con quella ricevuta nel payload
 		if(user.getPassword().equals(payload.password())) {
 			// 2. Se è tutto OK, genero un token e lo torno
-			return jwtTools.createToken(user);
+			String token= jwtTools.createToken(user);
+			return  new ResponseUser(token,user.getId());
 		} else {
 			// 3. Se le credenziali invece non fossero OK --> 401 (Unauthorized)
 			throw new UnauthorizedException("Credenziali non valide! Effettua di nuovo il login!");

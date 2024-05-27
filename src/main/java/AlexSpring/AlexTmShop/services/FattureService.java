@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import java.util.List;
-
+import java.util.UUID;
 
 
 @Service
@@ -41,13 +41,17 @@ public class FattureService {
     private ItemRicambioDAO itemRicambioDAO;
 
 
-    public Page<Fatture> getAllInvoices(int page, int size, String sortBy) {
-        if (size > 30) size = 30;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return this.fattureDAO.findAll(pageable);
+//    public Page<Fatture> getAllInvoices(int page, int size, String sortBy) {
+//        if (size > 30) size = 30;
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+//        return this.fattureDAO.findAll(pageable);
+//
+//    }
 
+
+    public List<Fatture> findByUserId(UUID userId){
+        return this.fattureDAO.findByUserId(userId);
     }
-
 
     public Fatture getInvoicesById(long id) {
         return this.fattureDAO.findById(id).orElseThrow(() -> new NotFoundException("La fattura con il numero: " + id + " non è stata trovata"));

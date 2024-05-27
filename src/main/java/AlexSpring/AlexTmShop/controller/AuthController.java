@@ -1,12 +1,15 @@
 package AlexSpring.AlexTmShop.controller;
 
 import AlexSpring.AlexTmShop.Exceptions.BadRequestException;
+import AlexSpring.AlexTmShop.entities.User;
 import AlexSpring.AlexTmShop.payloads.*;
 import AlexSpring.AlexTmShop.services.AuthService;
+import AlexSpring.AlexTmShop.services.ResponseUser;
 import AlexSpring.AlexTmShop.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,8 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public UserLoginResponseDTO login(@RequestBody UserLoginDTO payload){
-        return new UserLoginResponseDTO(this.authService.authenticateUserAndGenerateToken(payload));
+		ResponseUser responseUser = this.authService.authenticateUserAndGenerateToken(payload);
+        return new UserLoginResponseDTO(responseUser.getAccessToken(),responseUser.getUserId());
 	}
 
 	@PostMapping("/register")
