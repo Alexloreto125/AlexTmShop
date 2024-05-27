@@ -82,19 +82,19 @@ public class ItemRicambioService {
     public ItemRicambio update(Long id, ItemRicambioDTO body) {
         ItemRicambio found = itemRicambioDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
-        if (body.name() != null) {
+        if (body.name() != "") {
             found.setName(body.name());
         }
-        if (body.descrizione() != null) {
+        if (body.descrizione() != "") {
             found.setDescrizione(body.descrizione());
         }
         if (body.prezzo() != null) {
             found.setPrezzo(body.prezzo());
         }
-        if(body.codice()!= null){
+        if(body.codice()!= ""){
             found.setCodice(body.codice());
         }
-        if (body.image() != null) {
+        if (body.image() != "") {
             found.setImage(body.image());
         }
         if (body.categoryID() != null) {

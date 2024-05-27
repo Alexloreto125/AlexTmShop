@@ -7,7 +7,6 @@ public record NewCategoryDTO(
 
         @NotEmpty(message = "E' richiesto il nome della categoria")
         String name,
-
         @NotEmpty(message = "E' richiesta una descrizione")
         String description
 ) {

@@ -50,9 +50,14 @@ public class CategoryService {
 
     public Category updateCategories(Long id, NewCategoryDTO newCategoryDTO ){
         Category category= categoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
-        if (newCategoryDTO.name()!=null){
+        if (newCategoryDTO.name()!= ""){
             category.setName(newCategoryDTO.name());
         }
+        if(newCategoryDTO.description()!= ""){
+            category.setDescription(newCategoryDTO.description());
+        }
+
+
         return categoryDAO.save(category);
 
     }

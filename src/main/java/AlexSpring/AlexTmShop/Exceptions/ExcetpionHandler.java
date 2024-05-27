@@ -7,7 +7,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -51,6 +53,15 @@ public class ExcetpionHandler {
         String errorMessage = "Errore nel formato dei dati forniti: utilizza solo numeri positivi";
         return new ErrorDTO(errorMessage, LocalDateTime.now());
     }
+
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+        return new  ErrorDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+
     @ExceptionHandler(Exception.class)
     private ErrorDTO GenericException(Exception ex) {
         ex.printStackTrace();
