@@ -17,5 +17,6 @@ public interface ItemRicambioDAO extends JpaRepository<ItemRicambio, Long> {
     List<ItemRicambio> findByCategoryIdOrderByNameAsc(Long categoryId);
 
     List<ItemRicambio> findByCategory(Category category);
+    List<ItemRicambio> findAllById(Iterable<Long> ids);
 
 }

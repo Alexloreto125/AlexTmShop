@@ -50,8 +50,8 @@ public class ExcetpionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        String errorMessage = "Errore nel formato dei dati forniti: utilizza solo numeri positivi";
-        return new ErrorDTO(errorMessage, LocalDateTime.now());
+//        String errorMessage = "Errore nel formato dei dati forniti: utilizza solo numeri positivi";
+        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
 

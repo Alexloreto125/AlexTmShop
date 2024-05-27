@@ -1,5 +1,6 @@
 package AlexSpring.AlexTmShop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,12 @@ public class ItemRicambio {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Fatture fatture;
 
     public ItemRicambio(String name, String descrizione, BigDecimal prezzo, String image, Category category, String codice) {
         this.name = name;
