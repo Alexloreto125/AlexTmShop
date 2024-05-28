@@ -74,40 +74,6 @@ public class FattureService {
         Fatture fatture = new Fatture(currentDate, totalPrice, usersService.findById(payload.userId()), items);
         return this.fattureDAO.save(fatture);
     }
-//    public Fatture saveInvoices2(FattureDTO payload) {
-//        LocalDate currentDate = LocalDate.now();
-//
-//        List<ItemRicambio>items  = itemRicambioDAO.findAllById(payload.items());
-//        double totalPrice = items.stream()
-//                .map(ItemRicambio::getPrezzo)
-//                .mapToDouble(BigDecimal::doubleValue)
-//                .sum();
-//        System.out.println("Prezzo totale degli item: " + totalPrice);
-//
-//        System.out.println("ID ITEM PAYLOAD" + payload.items());
-//
-//        System.out.println("ITEM DAL DB"+ items);
-//        Fatture fatture = new Fatture(currentDate, totalPrice,usersService.findById(payload.userId()),items);
-//        return this.fattureDAO.save(fatture);
-//    }
-
-//    public Fatture saveInvoices(FattureDTO payload) {
-//        LocalDate currentDate = LocalDate.now();
-//        double totalPrice = 0;
-//
-//        List<ItemRicambio> items = new ArrayList<>();
-//        for (FattureDTO.ItemQuantity itemQuantity : payload.items()) {
-//            ItemRicambio item = itemRicambioDAO.findById(itemQuantity.id())
-//                    .orElseThrow(() -> new NotFoundException("Item not found " ));
-//            totalPrice += item.getPrezzo().doubleValue() * itemQuantity.quantity();
-//            for (int i = 0; i < itemQuantity.quantity(); i++) {
-//                items.add(item);
-//            }
-//        }
-//
-//        Fatture fatture = new Fatture(currentDate, totalPrice, usersService.findById(payload.userId()), items);
-//        return this.fattureDAO.save(fatture);
-//    }
 
 
 
