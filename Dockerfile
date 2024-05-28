@@ -14,8 +14,13 @@ FROM openjdk:17-jdk-slim
 # Copia l'applicazione compilata dalla fase di compilazione
 COPY --from=build /usr/src/app/target/*.jar app.jar
 
-# Espone la porta 8080 per l'applicazione
+# Copia il file di configurazione
+#COPY env.properties /env.properties
+#RUN ls -la /env.properties
+
+# Espone la porta 3001 per l'applicazione
 EXPOSE 3001
+
 
 # Comando per eseguire l'applicazione
 ENTRYPOINT ["java","-jar","/app.jar"]
