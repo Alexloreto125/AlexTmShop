@@ -10,13 +10,18 @@ import java.util.List;
 import java.util.UUID;
 
 public record FattureDTO(
-                          @NotNull
-                          @Min(0)
-                          double importo,
+
                           @NotNull(message = "Il cliente è obbligatorio")
                           UUID userId,
                           @NotNull(message = "Item è obbligatorio")
-                          List<Long> items
+                          List<ItemQuantity> items
 ) {
+    public record ItemQuantity(
+            @NotNull
+            Long id,
+            @NotNull
+            @Min(1)
+            int quantity
+    ) {}
 
 }

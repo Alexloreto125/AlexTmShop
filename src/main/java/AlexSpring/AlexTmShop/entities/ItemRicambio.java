@@ -26,6 +26,7 @@ public class ItemRicambio {
     private BigDecimal prezzo;
     private String image;
     private String codice;
+    private int quantity;
 
 
 
@@ -47,6 +48,15 @@ public class ItemRicambio {
 //        this.categoryId= categoryId;
         this.category = category;
         this.codice= codice;
+    }
+    public ItemRicambio(String name, String descrizione, BigDecimal prezzo, String image, Category category, String codice, int quantity) {
+        this.name = name;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.image = image;
+        this.category = category;
+        this.codice = codice;
+        this.quantity = quantity;
     }
 
 }

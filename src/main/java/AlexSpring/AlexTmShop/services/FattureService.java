@@ -63,14 +63,15 @@ public class FattureService {
         double totalPrice = 0;
         List<ItemRicambio> items = new ArrayList<>();
 
-
-        for (Long itemId : payload.items()) {
-            ItemRicambio item = itemRicambioDAO.findById(itemId)
+        for (FattureDTO.ItemQuantity itemQuantity : payload.items()) {
+            ItemRicambio item = itemRicambioDAO.findById(itemQuantity.id())
                     .orElseThrow(() -> new NotFoundException("Item not found"));
-            totalPrice += item.getPrezzo().doubleValue();
+            totalPrice += item.getPrezzo().doubleValue() * itemQuantity.quantity();
+            item.setQuantity(itemQuantity.quantity()); // Imposta la quantità nell'oggetto ItemRicambio
             items.add(item);
         }
-        Fatture fatture = new Fatture(currentDate, totalPrice,usersService.findById(payload.userId()),items);
+
+        Fatture fatture = new Fatture(currentDate, totalPrice, usersService.findById(payload.userId()), items);
         return this.fattureDAO.save(fatture);
     }
 //    public Fatture saveInvoices2(FattureDTO payload) {
