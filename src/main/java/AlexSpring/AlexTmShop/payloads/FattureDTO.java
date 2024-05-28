@@ -18,4 +18,5 @@ public record FattureDTO(
                           @NotNull(message = "Item è obbligatorio")
                           List<Long> items
 ) {
+
 }

@@ -1,5 +1,6 @@
 package AlexSpring.AlexTmShop.controller;
 
+import AlexSpring.AlexTmShop.Exceptions.NotFoundException;
 import AlexSpring.AlexTmShop.entities.Category;
 import AlexSpring.AlexTmShop.repositories.FattureDAO;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,12 @@ public class FattureController {
     @GetMapping("{userId}")
     public List<Fatture> findAllFatture(@PathVariable UUID userId) {
         return this.fattureDAO.findByUserId(userId);
+    }
+
+
+    @GetMapping("/ordine/{numero}")
+    public Fatture findById(@PathVariable Long numero) {
+        return this.fattureService.getInvoicesById(numero);
     }
 
 

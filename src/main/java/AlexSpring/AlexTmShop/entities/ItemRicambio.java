@@ -36,7 +36,7 @@ public class ItemRicambio {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "invoice_id")
+    @JoinColumn(name = "fatture_id")
     private Fatture fatture;
 
     public ItemRicambio(String name, String descrizione, BigDecimal prezzo, String image, Category category, String codice) {
