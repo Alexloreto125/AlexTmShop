@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -69,24 +70,28 @@ public class ItemRicambioController {
 //        return ricambi;
 //    }
 
-    @GetMapping("/ricambi/search")
+    @GetMapping("/search")
     public List<ItemRicambio> getRicambioSearch(@RequestParam("q") String query) {
-        if (query.matches("[A-Za-z0-9]+")) {
-            Optional<ItemRicambio> ricambio = this.itemRicambioDAO.findByCodiceContainingIgnoreCase(query);
-            if (ricambio.isPresent()) {
-                return Collections.singletonList(ricambio.get());
-            } else {
-                List<ItemRicambio> ricambiByNome = this.itemRicambioDAO.findByNameContainingIgnoreCase(query);
-                if (ricambiByNome.isEmpty()) {
-                    throw new NotFoundException("Nessun ricambio trovato per il nome: " + query);
-                }
-                return ricambiByNome;
-            }
-        } else {
+        if (query.matches("^[A-Za-z0-9]+$")) { // Validazione robusta della query
+            List<ItemRicambio> result = new ArrayList<>();
 
+            Optional<ItemRicambio> ricambioByCodice = itemRicambioDAO.findByCodiceContainingIgnoreCase(query);
+            ricambioByCodice.ifPresent(result::add);
+
+            if (result.isEmpty()) {
+                result.addAll(itemRicambioDAO.findByNameContainingIgnoreCase(query));
+            }
+
+            if (result.isEmpty()) {
+                throw new NotFoundException("Nessun ricambio trovato per il codice o nome: " + query);
+            }
+
+            return result;
+        } else {
             throw new NotFoundException("La query non contiene solo caratteri alfanumerici: " + query);
         }
     }
+
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
