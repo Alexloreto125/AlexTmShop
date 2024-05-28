@@ -24,7 +24,8 @@ public class Fatture {
 
     private double importo;
 
-    @OneToMany(mappedBy = "fatture", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fatture_id") // Specifica la colonna nella tabella degli item che fa riferimento alla fattura
     private List<ItemRicambio> items;
 
     @ManyToOne

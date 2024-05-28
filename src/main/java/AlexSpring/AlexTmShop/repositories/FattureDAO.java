@@ -12,4 +12,6 @@ public interface FattureDAO extends JpaRepository<Fatture, Long> {
 
     List<Fatture> findByUserId(UUID userId);
 
+    Fatture findById(long numero);
+
 }
